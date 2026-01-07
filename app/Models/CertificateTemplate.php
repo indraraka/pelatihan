@@ -94,7 +94,6 @@ class CertificateTemplate extends Model
                         "left: {$x}%",
                         "top: {$y}%",
                         'max-height: 80px',
-                        'transform: translateX(-50%)',
                     ]);
                     $elementsHtml .= "<img src=\"{$signatureUrl}\" style=\"{$imageStyles}\" />\n";
                 }
@@ -168,13 +167,20 @@ HTML;
         $textAlign = $element['textAlign'] ?? 'center';
         $width = $element['width'] ?? 100;
         
+        // Calculate left position accounting for width (center the element)
+        // E.g., if x=50% and width=80%, left should be 50% - 40% = 10%
+        $leftOffset = $x - ($width / 2);
+        
+        // Convert px to pt for DomPDF (screen 96dpi / print 72dpi = 1.33 scaling)
+        // Use pt units for consistent rendering in DomPDF
+        $fontSizePt = round($fontSize * 0.75); // px to pt conversion
+        
         return implode('; ', [
             'position: absolute',
-            "left: {$x}%",
+            "left: {$leftOffset}%",
             "top: {$y}%",
-            'transform: translate(-50%, -50%)',
             "width: {$width}%",
-            "font-size: {$fontSize}px",
+            "font-size: {$fontSizePt}pt",
             "font-family: {$fontFamily}",
             "font-weight: {$fontWeight}",
             "color: {$color}",
