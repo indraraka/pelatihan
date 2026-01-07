@@ -91,9 +91,9 @@ export default function Index({ banners }) {
                         {banners.map((banner) => (
                             <div key={banner.id} className="p-6 flex items-center justify-between hover:bg-slate-50 transition-colors">
                                 <div className="flex items-center gap-4">
-                                    {banner.image && (
+                                    {banner.image_path && (
                                         <img
-                                            src={`/storage/${banner.image}`}
+                                            src={`/storage/${banner.image_path}`}
                                             alt=""
                                             className="w-20 h-12 object-cover rounded-lg"
                                         />

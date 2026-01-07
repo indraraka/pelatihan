@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('categories', CategoryController::class);
         
         // Users
+        
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     });
 
