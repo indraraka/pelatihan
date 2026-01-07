@@ -24,14 +24,15 @@ export default function Form({ training, certificateTemplates, categories, zoomC
         material: null,
         vb_background: null,
         jumlah_jp: training?.jumlah_jp || '',
+        _method: training ? 'PUT' : undefined,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isEdit) {
             post(`/trainer/trainings/${training.id}`, {
-                _method: 'PUT',
                 forceFormData: true,
+                preserveScroll: true,
             });
         } else {
             post('/trainer/trainings', {
