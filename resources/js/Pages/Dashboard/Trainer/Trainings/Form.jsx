@@ -7,12 +7,24 @@ export default function Form({ training, certificateTemplates, categories, zoomC
     const [showCustomTime, setShowCustomTime] = useState(training?.attendance_open_config?.type === 'custom');
     const [vbPreview, setVbPreview] = useState(training?.vb_background ? `/storage/${training.vb_background}` : null);
 
+    // Helper function to format date in local timezone for datetime-local input
+    const formatDateTimeLocal = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+
     const { data, setData, post, put, processing, errors } = useForm({
         title: training?.title || '',
         description: training?.description || '',
         category_id: training?.category_id || '',
-        start_time: training?.start_time ? new Date(training.start_time).toISOString().slice(0, 16) : '',
-        end_time: training?.end_time ? new Date(training.end_time).toISOString().slice(0, 16) : '',
+        start_time: formatDateTimeLocal(training?.start_time),
+        end_time: formatDateTimeLocal(training?.end_time),
         certificate_template_id: training?.certificate_template_id || '',
         attendance_open_type: training?.attendance_open_config?.type || 'from_start',
         attendance_minutes_before_end: training?.attendance_open_config?.minutes_before_end || 30,
