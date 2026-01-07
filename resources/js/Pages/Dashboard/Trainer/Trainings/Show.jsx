@@ -1,11 +1,13 @@
 import { Head, Link, router } from '@inertiajs/react';
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import MaterialPreview from '@/Components/MaterialPreview';
+import Modal from '@/Components/Modal';
 import { useState } from 'react';
 
 export default function Show({ training, attendanceUrl, zoomConfigured }) {
     const [copySuccess, setCopySuccess] = useState(false);
     const [showPreview, setShowPreview] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {
@@ -201,11 +203,7 @@ export default function Show({ training, attendanceUrl, zoomConfigured }) {
                                             Update Meeting
                                         </button>
                                         <button
-                                            onClick={() => {
-                                                if (confirm('Are you sure you want to delete this Zoom meeting?')) {
-                                                    router.delete(`/trainer/trainings/${training.id}/zoom/delete`);
-                                                }
-                                            }}
+                                            onClick={() => setShowDeleteModal(true)}
                                             className="w-full px-4 py-2 border border-red-200 text-red-600 rounded-xl font-medium hover:bg-red-50 transition-colors"
                                         >
                                             Delete Meeting
@@ -307,6 +305,36 @@ export default function Show({ training, attendanceUrl, zoomConfigured }) {
                     )}
                 </div>
             </div>
+            {/* Delete Confirmation Modal */}
+            <Modal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                title="Delete Zoom Meeting"
+                maxWidth="sm"
+            >
+                <div className="space-y-4">
+                    <p className="text-slate-600">
+                        Are you sure you want to delete this Zoom meeting? This action cannot be undone.
+                    </p>
+                    <div className="flex justify-end gap-3 pt-2">
+                        <button
+                            onClick={() => setShowDeleteModal(false)}
+                            className="px-4 py-2 border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-50 transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={() => {
+                                setShowDeleteModal(false);
+                                router.delete(`/trainer/trainings/${training.id}/zoom/delete`);
+                            }}
+                            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                        >
+                            Delete Meeting
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </DashboardLayout>
     );
 }
