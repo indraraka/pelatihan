@@ -40,6 +40,7 @@ class GoogleController extends Controller
                     'email' => $googleUser->getEmail(),
                     'avatar' => $googleUser->getAvatar(),
                     'email_verified_at' => now(),
+                    'role' => 'user', // Set default role for new users
                 ]
             );
 
@@ -47,7 +48,13 @@ class GoogleController extends Controller
 
             return redirect()->intended('/dashboard');
         } catch (\Exception $e) {
-            return redirect('/login')->with('error', 'Failed to authenticate with Google. Please try again.');
+            \Log::error('Google OAuth Error: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return redirect('/login')->with('error', 'Failed to authenticate with Google: ' . $e->getMessage());
         }
     }
 }
