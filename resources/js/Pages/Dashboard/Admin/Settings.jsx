@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, router } from '@inertiajs/react';
 import DashboardLayout from '@/Layouts/DashboardLayout';
 import { useState } from 'react';
 
@@ -312,9 +312,18 @@ function SmtpSettings({ settings }) {
         smtp_from_name: settings.smtp_from_name || '',
     });
 
+    const [testing, setTesting] = useState(false);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         post('/admin/settings/smtp');
+    };
+
+    const handleTest = () => {
+        setTesting(true);
+        router.post('/admin/settings/smtp/test', {}, {
+            onFinish: () => setTesting(false),
+        });
     };
 
     return (
@@ -397,13 +406,23 @@ function SmtpSettings({ settings }) {
                     </div>
                 </div>
 
-                <button
-                    type="submit"
-                    disabled={processing}
-                    className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50"
-                >
-                    {processing ? 'Saving...' : 'Save Changes'}
-                </button>
+                <div className="flex gap-4">
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50"
+                    >
+                        {processing ? 'Saving...' : 'Save Changes'}
+                    </button>
+                    <button
+                        type="button"
+                        disabled={testing}
+                        onClick={handleTest}
+                        className="px-6 py-3 border-2 border-green-500 text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-all disabled:opacity-50"
+                    >
+                        {testing ? 'Testing...' : '🔌 Test Connection'}
+                    </button>
+                </div>
             </div>
         </form>
     );

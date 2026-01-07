@@ -33,16 +33,40 @@ class GoogleController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
             
-            $user = User::updateOrCreate(
-                ['google_id' => $googleUser->getId()],
-                [
+            // First check if user exists by email (might have registered without Google)
+            $user = User::where('email', $googleUser->getEmail())->first();
+            
+            if ($user) {
+                // Existing user - update Google info but preserve role
+                $user->update([
+                    'google_id' => $googleUser->getId(),
                     'name' => $googleUser->getName(),
-                    'email' => $googleUser->getEmail(),
                     'avatar' => $googleUser->getAvatar(),
-                    'email_verified_at' => now(),
-                    'role' => 'user', // Set default role for new users
-                ]
-            );
+                    'email_verified_at' => $user->email_verified_at ?? now(),
+                ]);
+            } else {
+                // Check if user exists by google_id
+                $user = User::where('google_id', $googleUser->getId())->first();
+                
+                if ($user) {
+                    // Existing Google user - update info but preserve role
+                    $user->update([
+                        'name' => $googleUser->getName(),
+                        'email' => $googleUser->getEmail(),
+                        'avatar' => $googleUser->getAvatar(),
+                    ]);
+                } else {
+                    // New user - create with default role
+                    $user = User::create([
+                        'google_id' => $googleUser->getId(),
+                        'name' => $googleUser->getName(),
+                        'email' => $googleUser->getEmail(),
+                        'avatar' => $googleUser->getAvatar(),
+                        'email_verified_at' => now(),
+                        'role' => 'user',
+                    ]);
+                }
+            }
 
             Auth::login($user);
 
