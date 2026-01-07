@@ -144,6 +144,50 @@ export default function TrainingShow({ training, isOpen, attendanceUrl }) {
                             </div>
                         )}
 
+                        {/* Zoom Meeting Info */}
+                        {training.zoom_meeting_url && (
+                            <div className="mb-8 p-6 bg-blue-50 rounded-xl border border-blue-100">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
+                                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 3.5l4.5-2.25A.5.5 0 0121 4.5v11a.5.5 0 01-.5.5l-4.5-2.25V6.5z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-lg font-bold text-slate-800">Zoom Meeting</h3>
+                                </div>
+
+                                <div className="space-y-3 mb-4">
+                                    <div>
+                                        <p className="text-sm text-slate-500 mb-1">Meeting URL</p>
+                                        <p className="text-blue-600 font-medium break-all text-sm">
+                                            {training.zoom_meeting_url}
+                                        </p>
+                                    </div>
+
+                                    {training.zoom_passcode && (
+                                        <div>
+                                            <p className="text-sm text-slate-500 mb-1">Passcode</p>
+                                            <p className="font-mono text-lg font-bold text-slate-800">
+                                                {training.zoom_passcode}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <a
+                                    href={training.zoom_meeting_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 hover:shadow-lg transition-all"
+                                >
+                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 3.5l4.5-2.25A.5.5 0 0121 4.5v11a.5.5 0 01-.5.5l-4.5-2.25V6.5z" />
+                                    </svg>
+                                    Gabung Meeting
+                                </a>
+                            </div>
+                        )}
+
                         {/* Action Button */}
                         {isOpen ? (
                             <Link
