@@ -147,13 +147,16 @@ class CertificateTemplateController extends Controller
     /**
      * Preview template
      */
-    public function preview(CertificateTemplate $certificate)
+    public function preview(Request $request, CertificateTemplate $certificate)
     {
+        // Use title from query param if provided, otherwise use sample text
+        $trainingTitle = $request->query('title', 'Sample Training Event');
+        
         $sampleData = [
             'name' => 'John Doe',
             'organization' => 'Sample Organization',
             'certificate_number' => 'CERT/01/2026/0001',
-            'training_title' => 'Sample Training Event',
+            'training_title' => $trainingTitle,
             'training_date' => now()->format('d F Y'),
             'training_duration' => '09:00 - 17:00',
             'issue_date' => now()->format('d F Y'),

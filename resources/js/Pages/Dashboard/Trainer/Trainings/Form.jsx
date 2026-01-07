@@ -248,7 +248,7 @@ export default function Form({ training, certificateTemplates, categories, zoomC
                             </select>
                             {data.certificate_template_id && (
                                 <a
-                                    href={`/admin/certificates/${data.certificate_template_id}/preview`}
+                                    href={`/admin/certificates/${data.certificate_template_id}/preview?title=${encodeURIComponent(data.title || 'Sample Training')}`}
                                     target="_blank"
                                     className="px-4 py-3 bg-indigo-50 text-indigo-600 rounded-xl font-medium hover:bg-indigo-100 transition-colors flex items-center gap-2 whitespace-nowrap"
                                 >
