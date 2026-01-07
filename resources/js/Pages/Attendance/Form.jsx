@@ -1,12 +1,13 @@
-import { Head, useForm } from '@inertiajs/react';
-import { useEffect, useRef } from 'react';
+import { Head, useForm, router } from '@inertiajs/react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Form({ training, formFields, isOpen, recaptchaSiteKey, siteName }) {
-    const { data, setData, post, processing, errors } = useForm(
-        formFields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), { recaptcha_token: '' })
+    const { data, setData, errors } = useForm(
+        formFields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {})
     );
 
     const recaptchaLoaded = useRef(false);
+    const [processing, setProcessing] = useState(false);
 
     useEffect(() => {
         if (recaptchaSiteKey && !recaptchaLoaded.current) {
@@ -20,17 +21,22 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setProcessing(true);
 
         let token = '';
         if (recaptchaSiteKey && window.grecaptcha) {
-            token = await window.grecaptcha.execute(recaptchaSiteKey, { action: 'attendance' });
+            try {
+                token = await window.grecaptcha.execute(recaptchaSiteKey, { action: 'attendance' });
+            } catch (err) {
+                console.error('reCAPTCHA error:', err);
+            }
         }
 
-        post(`/attendance/${training.id}`, {
-            transform: (formData) => ({
-                ...formData,
-                recaptcha_token: token,
-            }),
+        router.post(`/attendance/${training.id}`, {
+            ...data,
+            recaptcha_token: token,
+        }, {
+            onFinish: () => setProcessing(false),
         });
     };
 
