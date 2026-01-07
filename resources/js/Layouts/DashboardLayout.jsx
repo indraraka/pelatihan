@@ -14,7 +14,7 @@ export default function DashboardLayout({ children, title }) {
             { name: 'Artikel', href: '/admin/articles', icon: '📝' },
             { name: 'FAQ', href: '/admin/faqs', icon: '❓' },
             { name: 'Sertifikat', href: '/admin/certificates', icon: '📜' },
-            { name: 'Form Fields', href: '/admin/form-fields', icon: '📋' },
+            { name: 'Kolom Formulir', href: '/admin/form-fields', icon: '📋' },
             { name: 'Kategori', href: '/admin/categories', icon: '🏷️' },
             { name: 'Pelatihan', href: '/trainer/trainings', icon: '🎓' },
         ],

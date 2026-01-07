@@ -44,7 +44,7 @@ export default function Index({ users: paginatedUsers, filters = {} }) {
     }, [search, role]);
 
     const handleDelete = (userId) => {
-        if (confirm('Are you sure you want to permanently delete this user? This action cannot be undone.')) {
+        if (confirm('Apakah Anda yakin ingin menghapus pengguna ini secara permanen? Tindakan ini tidak dapat dibatalkan.')) {
             router.delete(route('admin.users.destroy', userId), {
                 preserveScroll: true,
                 onSuccess: () => {
@@ -138,12 +138,12 @@ export default function Index({ users: paginatedUsers, filters = {} }) {
                         <table className="min-w-full divide-y divide-slate-200">
                             <thead className="bg-slate-50">
                                 <tr>
-                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">User</th>
+                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Pengguna</th>
                                     <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
                                     <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Role</th>
-                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Joined</th>
+                                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Bergabung</th>
                                     <th scope="col" className="relative px-6 py-4">
-                                        <span className="sr-only">Actions</span>
+                                        <span className="sr-only">Aksi</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -195,12 +195,12 @@ export default function Index({ users: paginatedUsers, filters = {} }) {
                                                     {user.email_verified_at ? (
                                                         <span className="inline-flex items-center gap-1 text-xs font-medium text-green-700">
                                                             <svg className="h-1.5 w-1.5 fill-current" viewBox="0 0 6 6" aria-hidden="true"><circle cx="3" cy="3" r="3" /></svg>
-                                                            Verified
+                                                            Terverifikasi
                                                         </span>
                                                     ) : (
                                                         <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-500">
                                                             <svg className="h-1.5 w-1.5 fill-current" viewBox="0 0 6 6" aria-hidden="true"><circle cx="3" cy="3" r="3" /></svg>
-                                                            Unverified
+                                                            Belum Terverifikasi
                                                         </span>
                                                     )}
                                                     {user.google_id && (
@@ -231,7 +231,7 @@ export default function Index({ users: paginatedUsers, filters = {} }) {
                                                         onClick={() => handleDelete(user.id)}
                                                         className="text-red-600 hover:text-red-900 font-medium transition-colors p-1 rounded hover:bg-red-50"
                                                     >
-                                                        Delete
+                                                        Hapus
                                                     </button>
                                                 </div>
                                             </td>
@@ -262,7 +262,7 @@ export default function Index({ users: paginatedUsers, filters = {} }) {
                             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                                 <div>
                                     <p className="text-sm text-slate-700">
-                                        Showing <span className="font-medium">{from}</span> to <span className="font-medium">{to}</span> of <span className="font-medium">{total}</span> results
+                                        Menampilkan <span className="font-medium">{from}</span> sampai <span className="font-medium">{to}</span> dari <span className="font-medium">{total}</span> hasil
                                     </p>
                                 </div>
                                 <div>

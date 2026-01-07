@@ -155,7 +155,7 @@ function AuthSettings({ settings }) {
 
     return (
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-slate-800 mb-6">Authentication Settings</h2>
+            <h2 className="text-xl font-semibold text-slate-800 mb-6">Pengaturan Autentikasi</h2>
 
             <div className="space-y-8">
                 {/* Google OAuth */}
@@ -231,7 +231,7 @@ function AuthSettings({ settings }) {
                     disabled={processing}
                     className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50"
                 >
-                    {processing ? 'Saving...' : 'Save Changes'}
+                    {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                 </button>
             </div>
         </form>
@@ -252,9 +252,9 @@ function ZoomSettings({ settings }) {
 
     return (
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-slate-800 mb-2">Zoom Integration</h2>
+            <h2 className="text-xl font-semibold text-slate-800 mb-2">Integrasi Zoom</h2>
             <p className="text-slate-500 text-sm mb-6">
-                Configure Server-to-Server OAuth credentials from{' '}
+                Konfigurasi kredensial Server-to-Server OAuth dari{' '}
                 <a href="https://marketplace.zoom.us/" target="_blank" rel="noopener" className="text-indigo-600 hover:underline">
                     Zoom Marketplace
                 </a>
@@ -294,7 +294,7 @@ function ZoomSettings({ settings }) {
                     disabled={processing}
                     className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50"
                 >
-                    {processing ? 'Saving...' : 'Save Changes'}
+                    {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                 </button>
             </div>
         </form>
@@ -328,7 +328,7 @@ function SmtpSettings({ settings }) {
 
     return (
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-slate-800 mb-6">Email (SMTP) Settings</h2>
+            <h2 className="text-xl font-semibold text-slate-800 mb-6">Pengaturan Email (SMTP)</h2>
 
             <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -354,7 +354,7 @@ function SmtpSettings({ settings }) {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Username</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Nama Pengguna</label>
                     <input
                         type="text"
                         value={data.smtp_username}
@@ -420,7 +420,7 @@ function SmtpSettings({ settings }) {
                         onClick={handleTest}
                         className="px-6 py-3 border-2 border-green-500 text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-all disabled:opacity-50"
                     >
-                        {testing ? 'Testing...' : '🔌 Test Connection'}
+                        {testing ? 'Menguji...' : '🔌 Tes Koneksi'}
                     </button>
                 </div>
             </div>
@@ -440,11 +440,11 @@ function CertificateSettings({ settings }) {
 
     return (
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-xl font-semibold text-slate-800 mb-6">Certificate Settings</h2>
+            <h2 className="text-xl font-semibold text-slate-800 mb-6">Pengaturan Sertifikat</h2>
 
             <div className="space-y-6">
                 <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Certificate Number Prefix</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Prefix Nomor Sertifikat</label>
                     <input
                         type="text"
                         value={data.certificate_prefix}
@@ -453,7 +453,7 @@ function CertificateSettings({ settings }) {
                         className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
                     />
                     <p className="mt-2 text-sm text-slate-500">
-                        Certificate numbers will be: <span className="font-mono">{data.certificate_prefix}/MM/YYYY/0001</span>
+                        Format nomor sertifikat: <span className="font-mono">{data.certificate_prefix}/MM/YYYY/0001</span>
                     </p>
                 </div>
 
@@ -462,7 +462,7 @@ function CertificateSettings({ settings }) {
                     disabled={processing}
                     className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg transition-all disabled:opacity-50"
                 >
-                    {processing ? 'Saving...' : 'Save Changes'}
+                    {processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                 </button>
             </div>
         </form>
