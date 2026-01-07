@@ -27,7 +27,10 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
         }
 
         post(`/attendance/${training.id}`, {
-            data: { ...data, recaptcha_token: token },
+            transform: (formData) => ({
+                ...formData,
+                recaptcha_token: token,
+            }),
         });
     };
 
