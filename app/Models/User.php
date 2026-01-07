@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'avatar',
+        'role',
     ];
 
     /**
@@ -44,5 +47,45 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get trainings created by this user (trainer)
+     */
+    public function trainings(): HasMany
+    {
+        return $this->hasMany(Training::class, 'trainer_id');
+    }
+
+    /**
+     * Get attendance records for this user
+     */
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    /**
+     * Check if user is Super Admin
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
+    /**
+     * Check if user is Trainer
+     */
+    public function isTrainer(): bool
+    {
+        return $this->role === 'trainer';
+    }
+
+    /**
+     * Check if user is regular User
+     */
+    public function isUser(): bool
+    {
+        return $this->role === 'user';
     }
 }
