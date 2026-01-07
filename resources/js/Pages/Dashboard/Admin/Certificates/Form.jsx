@@ -1,6 +1,6 @@
 import { Head, useForm, router } from '@inertiajs/react';
 import DashboardLayout from '@/Layouts/DashboardLayout';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Form({ certificate, placeholders }) {
     const isEdit = !!certificate;
@@ -20,6 +20,58 @@ export default function Form({ certificate, placeholders }) {
         is_active: certificate?.is_active ?? true,
         _method: isEdit ? 'PUT' : undefined,
     });
+
+    // Keyboard arrow key handler for nudging elements
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!selectedElement) return;
+
+            // Don't handle if focus is in an input field
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+                return;
+            }
+
+            const step = e.shiftKey ? 1 : 0.5; // Hold Shift for larger steps
+            const currentElement = data.text_elements.find(el => el.id === selectedElement);
+            if (!currentElement) return;
+
+            let updates = null;
+
+            switch (e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    updates = { y: Math.max(0, currentElement.y - step) };
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    updates = { y: Math.min(100, currentElement.y + step) };
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    updates = { x: Math.max(0, currentElement.x - step) };
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    updates = { x: Math.min(100, currentElement.x + step) };
+                    break;
+                case 'Delete':
+                case 'Backspace':
+                    e.preventDefault();
+                    setData('text_elements', data.text_elements.filter(el => el.id !== selectedElement));
+                    setSelectedElement(null);
+                    return;
+            }
+
+            if (updates) {
+                setData('text_elements', data.text_elements.map(el =>
+                    el.id === selectedElement ? { ...el, ...updates } : el
+                ));
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectedElement, data.text_elements, setData]);
 
     const [backgroundPreview, setBackgroundPreview] = useState(
         certificate?.background_image ? `/storage/${certificate.background_image}` : null
