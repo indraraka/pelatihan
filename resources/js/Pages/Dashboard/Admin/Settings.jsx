@@ -54,6 +54,7 @@ function GeneralSettings({ settings }) {
     const { data, setData, post, processing } = useForm({
         site_name: settings.site_name || '',
         introduction_text: settings.introduction_text || '',
+        footer_description: settings.footer_description || '',
         footer_content: settings.footer_content || '',
         site_logo: null,
     });
@@ -103,13 +104,27 @@ function GeneralSettings({ settings }) {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Konten Footer</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Deskripsi Footer</label>
+                    <textarea
+                        value={data.footer_description}
+                        onChange={(e) => setData('footer_description', e.target.value)}
+                        rows={2}
+                        placeholder="Deskripsi singkat yang ditampilkan di footer sebelah kiri..."
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none resize-none"
+                    />
+                    <p className="mt-1 text-sm text-slate-500">Teks ini ditampilkan di footer di bawah nama situs</p>
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Konten Footer (Copyright)</label>
                     <textarea
                         value={data.footer_content}
                         onChange={(e) => setData('footer_content', e.target.value)}
-                        rows={3}
+                        rows={2}
+                        placeholder="© 2026 Nama Situs. All rights reserved."
                         className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none resize-none"
                     />
+                    <p className="mt-1 text-sm text-slate-500">Teks copyright di bagian bawah footer</p>
                 </div>
 
                 <button

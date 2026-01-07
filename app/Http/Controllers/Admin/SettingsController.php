@@ -33,6 +33,7 @@ class SettingsController extends Controller
         $request->validate([
             'site_name' => 'required|string|max:255',
             'introduction_text' => 'nullable|string|max:2000',
+            'footer_description' => 'nullable|string|max:500',
             'footer_content' => 'nullable|string',
         ]);
 
@@ -44,6 +45,7 @@ class SettingsController extends Controller
 
         Setting::set('site_name', $request->site_name, 'general');
         Setting::set('introduction_text', $request->introduction_text, 'general');
+        Setting::set('footer_description', $request->footer_description, 'general');
         Setting::set('footer_content', $request->footer_content, 'general');
 
         return back()->with('success', 'Pengaturan umum berhasil disimpan.');

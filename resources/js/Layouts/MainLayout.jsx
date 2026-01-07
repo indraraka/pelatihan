@@ -80,7 +80,7 @@ export default function MainLayout({ children }) {
                                 <span className="font-bold text-2xl">{app.name}</span>
                             </div>
                             <p className="text-gray-400 max-w-md">
-                                Menyediakan solusi manajemen pelatihan yang komprehensif untuk organisasi Anda.
+                                {app.footerDescription || 'Menyediakan solusi manajemen pelatihan yang komprehensif untuk organisasi Anda.'}
                             </p>
                         </div>
 
@@ -105,7 +105,7 @@ export default function MainLayout({ children }) {
                     </div>
 
                     <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-                        <p>© {new Date().getFullYear()} {app.name}. Hak cipta dilindungi.</p>
+                        <p>{app.footerContent || `© ${new Date().getFullYear()} ${app.name}. Hak cipta dilindungi.`}</p>
                     </div>
                 </div>
             </footer>

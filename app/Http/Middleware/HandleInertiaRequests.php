@@ -54,6 +54,8 @@ class HandleInertiaRequests extends Middleware
             'app' => [
                 'name' => Setting::get('site_name', 'Training Management'),
                 'logo' => Setting::get('site_logo'),
+                'footerDescription' => Setting::get('footer_description'),
+                'footerContent' => Setting::get('footer_content'),
             ],
         ];
     }
