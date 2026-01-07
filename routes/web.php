@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/trainings/{training}/zoom/create', [TrainingController::class, 'createZoomMeeting'])->name('trainings.zoom.create');
         Route::post('/trainings/{training}/zoom/update', [TrainingController::class, 'updateZoomMeeting'])->name('trainings.zoom.update');
         Route::get('/trainings/{training}/zoom/start', [TrainingController::class, 'startZoomMeeting'])->name('trainings.zoom.start');
+        Route::delete('/trainings/{training}/zoom/delete', [TrainingController::class, 'deleteZoomMeeting'])->name('trainings.zoom.delete');
         Route::get('/trainings/{training}/material/download', [TrainingController::class, 'downloadMaterial'])->name('trainings.material.download');
     });
 });

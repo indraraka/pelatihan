@@ -283,6 +283,27 @@ class TrainingController extends Controller
     }
 
     /**
+     * Delete Zoom meeting
+     */
+    public function deleteZoomMeeting(Training $training)
+    {
+        $this->authorize('update', $training);
+
+        if ($training->zoom_meeting_id) {
+            $this->zoomService->deleteMeeting($training->zoom_meeting_id);
+        }
+
+        $training->update([
+            'zoom_meeting_id' => null,
+            'zoom_meeting_url' => null,
+            'zoom_passcode' => null,
+            'zoom_start_url' => null,
+        ]);
+
+        return back()->with('success', 'Zoom meeting deleted successfully.');
+    }
+
+    /**
      * Update Zoom meeting
      */
     public function updateZoomMeeting(Training $training)

@@ -193,12 +193,24 @@ export default function Show({ training, attendanceUrl, zoomConfigured }) {
                                     >
                                         Start Meeting
                                     </a>
-                                    <button
-                                        onClick={() => router.post(`/trainer/trainings/${training.id}/zoom/update`)}
-                                        className="w-full px-4 py-2 border border-slate-200 text-slate-700 rounded-xl font-medium hover:bg-slate-50 transition-colors"
-                                    >
-                                        Update Meeting
-                                    </button>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <button
+                                            onClick={() => router.post(`/trainer/trainings/${training.id}/zoom/update`)}
+                                            className="w-full px-4 py-2 border border-slate-200 text-slate-700 rounded-xl font-medium hover:bg-slate-50 transition-colors"
+                                        >
+                                            Update Meeting
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                if (confirm('Are you sure you want to delete this Zoom meeting?')) {
+                                                    router.delete(`/trainer/trainings/${training.id}/zoom/delete`);
+                                                }
+                                            }}
+                                            className="w-full px-4 py-2 border border-red-200 text-red-600 rounded-xl font-medium hover:bg-red-50 transition-colors"
+                                        >
+                                            Delete Meeting
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ) : zoomConfigured ? (
