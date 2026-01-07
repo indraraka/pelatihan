@@ -1,5 +1,5 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import DashboardLayout from '@/Layouts/DashboardLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
@@ -20,7 +20,7 @@ export default function Create() {
     };
 
     return (
-        <AuthenticatedLayout>
+        <DashboardLayout title="Tambah Pengguna">
             <Head title="Tambah Pengguna" />
 
             <div className="py-12">
@@ -138,6 +138,6 @@ export default function Create() {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </DashboardLayout>
     );
 }

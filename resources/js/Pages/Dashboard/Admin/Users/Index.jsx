@@ -1,5 +1,5 @@
 import { Head, Link, router } from '@inertiajs/react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import DashboardLayout from '@/Layouts/DashboardLayout';
 import { useState } from 'react';
 
 export default function Index({ users, filters }) {
@@ -36,7 +36,7 @@ export default function Index({ users, filters }) {
     };
 
     return (
-        <AuthenticatedLayout>
+        <DashboardLayout title="Kelola Pengguna">
             <Head title="Kelola Pengguna" />
 
             <div className="py-12">
@@ -233,8 +233,8 @@ export default function Index({ users, filters }) {
                                                     key={index}
                                                     href={link.url || '#'}
                                                     className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${link.active
-                                                            ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
-                                                            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                                                        ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
+                                                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
                                                         } ${index === 0 ? 'rounded-l-md' : ''} ${index === users.links.length - 1 ? 'rounded-r-md' : ''
                                                         }`}
                                                     dangerouslySetInnerHTML={{ __html: link.label }}
@@ -248,6 +248,6 @@ export default function Index({ users, filters }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </DashboardLayout>
     );
 }
