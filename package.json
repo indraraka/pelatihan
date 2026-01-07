@@ -21,6 +21,7 @@
         "@inertiajs/react": "^2.3.6",
         "@monaco-editor/react": "^4.7.0",
         "@vitejs/plugin-react": "^5.1.2",
+        "lodash": "^4.17.21",
         "react": "^19.2.3",
         "react-dom": "^19.2.3",
         "react-draggable": "^4.5.0"
