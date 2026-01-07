@@ -72,6 +72,9 @@ Route::middleware('auth')->group(function () {
         
         // Categories
         Route::resource('categories', CategoryController::class);
+        
+        // Users
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
     });
 
     // Trainer Routes

@@ -8,6 +8,7 @@ export default function DashboardLayout({ children, title }) {
     const navigation = {
         super_admin: [
             { name: 'Dashboard', href: '/dashboard', icon: '📊' },
+            { name: 'Pengguna', href: '/admin/users', icon: '👥' },
             { name: 'Pengaturan', href: '/admin/settings', icon: '⚙️' },
             { name: 'Banner', href: '/admin/banners', icon: '🖼️' },
             { name: 'Artikel', href: '/admin/articles', icon: '📝' },
