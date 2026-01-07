@@ -43,16 +43,17 @@ class CertificateService
             'issue_date' => now()->format('d F Y'),
         ];
 
-        // Render the HTML template
+        // Render the template (uses template_type to choose correct rendering)
         $html = $template->render($data);
 
-        // Add background image if exists
-        if ($template->background_image) {
+        // For HTML templates, wrap with background if exists
+        // (Image templates already include background in renderImageTemplate)
+        if ($template->template_type === 'html' && $template->background_image) {
             $backgroundUrl = Storage::url($template->background_image);
             $html = $this->wrapWithBackground($html, $backgroundUrl);
         }
 
-        // Add signature image if exists
+        // Add signature image if exists (for HTML templates that use this placeholder)
         if ($template->signature_image) {
             $signatureUrl = Storage::url($template->signature_image);
             $html = str_replace('{{signature_image}}', "<img src='{$signatureUrl}' style='max-height: 80px;'>", $html);

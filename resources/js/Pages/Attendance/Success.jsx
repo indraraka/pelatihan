@@ -3,7 +3,7 @@ import { Head, Link } from '@inertiajs/react';
 export default function Success({ attendance, hasCertificate, siteName }) {
     return (
         <>
-            <Head title="Attendance Submitted" />
+            <Head title="Kehadiran Terkirim" />
 
             <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center py-12 px-4">
                 <div className="max-w-lg w-full">
@@ -16,12 +16,12 @@ export default function Success({ attendance, hasCertificate, siteName }) {
                         </div>
 
                         <h1 className="text-3xl font-bold text-slate-800 mb-4">
-                            Attendance Submitted!
+                            Kehadiran Terkirim!
                         </h1>
 
                         <p className="text-slate-600 mb-8">
-                            Thank you, <span className="font-semibold text-slate-800">{attendance.name}</span>!
-                            Your attendance for <span className="font-semibold text-indigo-600">{attendance.training.title}</span> has been recorded successfully.
+                            Terima kasih, <span className="font-semibold text-slate-800">{attendance.name}</span>!
+                            Kehadiran Anda untuk pelatihan <span className="font-semibold text-indigo-600">{attendance.training.title}</span> telah berhasil dicatat.
                         </p>
 
                         {hasCertificate && (
@@ -30,10 +30,10 @@ export default function Success({ attendance, hasCertificate, siteName }) {
                                     <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                                     </svg>
-                                    <h3 className="text-xl font-bold text-slate-800">Your Certificate is Ready!</h3>
+                                    <h3 className="text-xl font-bold text-slate-800">Sertifikat Anda Sudah Siap!</h3>
                                 </div>
                                 <p className="text-slate-600 mb-4 text-sm">
-                                    Certificate Number: <span className="font-mono font-semibold">{attendance.certificate_number}</span>
+                                    Nomor Sertifikat: <span className="font-mono font-semibold">{attendance.certificate_number}</span>
                                 </p>
                                 <a
                                     href={`/certificate/${attendance.id}/download`}
@@ -42,10 +42,10 @@ export default function Success({ attendance, hasCertificate, siteName }) {
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
-                                    Download Certificate
+                                    Unduh Sertifikat
                                 </a>
                                 <p className="text-slate-500 text-sm mt-4">
-                                    A copy has also been sent to your email address.
+                                    Salinan sertifikat juga telah dikirim ke alamat email Anda.
                                 </p>
                             </div>
                         )}
@@ -57,12 +57,12 @@ export default function Success({ attendance, hasCertificate, siteName }) {
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
-                            Back to Home
+                            Kembali ke Beranda
                         </Link>
                     </div>
 
                     <p className="text-center text-slate-500 text-sm mt-8">
-                        Powered by {siteName}
+                        Dibuat dengan ❤️ oleh {siteName}
                     </p>
                 </div>
             </div>

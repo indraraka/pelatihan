@@ -67,15 +67,41 @@ class CertificateTemplate extends Model
      */
     protected function renderImageTemplate(array $data): string
     {
+        // Use absolute URL for PDF rendering
         $backgroundUrl = $this->background_image 
-            ? Storage::url($this->background_image)
+            ? asset('storage/' . $this->background_image)
             : '';
         
         $elements = $this->text_elements ?? [];
         $elementsHtml = '';
         
+        // Get signature image URL if exists
+        $signatureUrl = $this->signature_image 
+            ? asset('storage/' . $this->signature_image)
+            : '';
+        
         foreach ($elements as $element) {
             $value = $element['value'] ?? '';
+            
+            // Handle signature image element specially
+            if ($value === '{{signature_image}}') {
+                if ($signatureUrl) {
+                    $x = $element['x'] ?? 50;
+                    $y = $element['y'] ?? 50;
+                    // Use simpler positioning for images (no transform which dompdf doesn't handle well)
+                    $imageStyles = implode('; ', [
+                        'position: absolute',
+                        "left: {$x}%",
+                        "top: {$y}%",
+                        'max-height: 80px',
+                        'transform: translateX(-50%)',
+                    ]);
+                    $elementsHtml .= "<img src=\"{$signatureUrl}\" style=\"{$imageStyles}\" />\n";
+                }
+                continue;
+            }
+            
+            $styles = $this->buildElementStyles($element);
             
             // Replace placeholders
             foreach ($data as $key => $val) {
@@ -84,7 +110,6 @@ class CertificateTemplate extends Model
             $value = str_replace('{{signer_name}}', $this->signer_name ?? '', $value);
             $value = str_replace('{{signer_title}}', $this->signer_title ?? '', $value);
             
-            $styles = $this->buildElementStyles($element);
             $elementsHtml .= "<div style=\"{$styles}\">{$value}</div>\n";
         }
 

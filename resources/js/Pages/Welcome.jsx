@@ -38,8 +38,21 @@ export default function Welcome({ banners, upcomingTrainings, ongoingTrainings, 
 
             {/* Hero/Banner Section */}
             <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-                {/* Background Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900" />
+                {/* Background Layer */}
+                {banners.length > 0 && banners[currentBanner]?.image_path ? (
+                    <>
+                        <div
+                            key={currentBanner}
+                            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+                            style={{
+                                backgroundImage: `url('/storage/${banners[currentBanner].image_path}')`,
+                            }}
+                        />
+                        <div className="absolute inset-0 bg-black/60" />
+                    </>
+                ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900" />
+                )}
 
                 {/* Banner Content */}
                 <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">

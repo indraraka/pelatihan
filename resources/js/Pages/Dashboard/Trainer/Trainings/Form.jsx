@@ -100,8 +100,8 @@ export default function Form({ training, certificateTemplates, categories, zoomC
                                             type="button"
                                             onClick={() => setData('category_id', cat.id)}
                                             className={`p-4 rounded-xl border-2 text-left transition-all ${data.category_id == cat.id
-                                                    ? 'border-indigo-500 bg-indigo-50'
-                                                    : 'border-slate-200 hover:border-slate-300'
+                                                ? 'border-indigo-500 bg-indigo-50'
+                                                : 'border-slate-200 hover:border-slate-300'
                                                 }`}
                                         >
                                             <span className="text-2xl mb-2 block">{cat.icon || '📁'}</span>
@@ -222,16 +222,31 @@ export default function Form({ training, certificateTemplates, categories, zoomC
 
                     <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">Certificate Template</label>
-                        <select
-                            value={data.certificate_template_id}
-                            onChange={(e) => setData('certificate_template_id', e.target.value)}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
-                        >
-                            <option value="">No Certificate</option>
-                            {certificateTemplates.map((template) => (
-                                <option key={template.id} value={template.id}>{template.name}</option>
-                            ))}
-                        </select>
+                        <div className="flex items-center gap-3">
+                            <select
+                                value={data.certificate_template_id}
+                                onChange={(e) => setData('certificate_template_id', e.target.value)}
+                                className="flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+                            >
+                                <option value="">No Certificate</option>
+                                {certificateTemplates.map((template) => (
+                                    <option key={template.id} value={template.id}>{template.name}</option>
+                                ))}
+                            </select>
+                            {data.certificate_template_id && (
+                                <a
+                                    href={`/admin/certificates/${data.certificate_template_id}/preview`}
+                                    target="_blank"
+                                    className="px-4 py-3 bg-indigo-50 text-indigo-600 rounded-xl font-medium hover:bg-indigo-100 transition-colors flex items-center gap-2 whitespace-nowrap"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    Preview
+                                </a>
+                            )}
+                        </div>
                         <p className="mt-2 text-sm text-slate-500">Leave empty if you don't want to issue certificates for this training</p>
                     </div>
                 </div>

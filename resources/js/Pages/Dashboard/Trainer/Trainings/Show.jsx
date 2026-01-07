@@ -1,9 +1,11 @@
 import { Head, Link, router } from '@inertiajs/react';
 import DashboardLayout from '@/Layouts/DashboardLayout';
+import MaterialPreview from '@/Components/MaterialPreview';
 import { useState } from 'react';
 
 export default function Show({ training, attendanceUrl, zoomConfigured }) {
     const [copySuccess, setCopySuccess] = useState(false);
+    const [showPreview, setShowPreview] = useState(false);
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {
@@ -219,26 +221,55 @@ export default function Show({ training, attendanceUrl, zoomConfigured }) {
                         <div className="bg-white rounded-xl shadow-sm p-6">
                             <h2 className="text-lg font-semibold text-slate-800 mb-4">Training Material</h2>
                             <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl">
-                                <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                                    <svg className="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
-                                    </svg>
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${training.material_original_name?.endsWith('.pdf') ? 'bg-red-100' : 'bg-orange-100'}`}>
+                                    {training.material_original_name?.endsWith('.pdf') ? (
+                                        <svg className="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                                        </svg>
+                                    ) : (
+                                        <svg className="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3z" clipRule="evenodd" />
+                                        </svg>
+                                    )}
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <p className="font-medium text-slate-800 truncate">{training.material_original_name}</p>
+                                    <p className="text-xs text-slate-500">
+                                        {training.material_original_name?.endsWith('.pdf') ? 'PDF Document' : 'PowerPoint Presentation'}
+                                    </p>
                                 </div>
                             </div>
-                            <a
-                                href={`/trainer/trainings/${training.id}/material/download`}
-                                className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-200 text-slate-700 rounded-xl font-medium hover:bg-slate-50 transition-colors"
-                            >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                Download
-                            </a>
+                            <div className="flex gap-2 mt-4">
+                                <button
+                                    onClick={() => setShowPreview(true)}
+                                    className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 rounded-xl font-medium hover:bg-indigo-100 transition-colors"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    Preview
+                                </button>
+                                <a
+                                    href={`/trainer/trainings/${training.id}/material/download`}
+                                    className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 border border-slate-200 text-slate-700 rounded-xl font-medium hover:bg-slate-50 transition-colors"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Download
+                                </a>
+                            </div>
                         </div>
                     )}
+
+                    {/* Material Preview Modal */}
+                    <MaterialPreview
+                        isOpen={showPreview}
+                        onClose={() => setShowPreview(false)}
+                        materialUrl={`/storage/${training.material_path}`}
+                        fileName={training.material_original_name}
+                    />
 
                     {/* Virtual Background */}
                     {training.vb_background && (

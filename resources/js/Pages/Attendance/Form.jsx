@@ -32,7 +32,7 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
     };
 
     const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
+        return new Date(dateString).toLocaleDateString('id-ID', {
             weekday: 'long',
             year: 'numeric',
             month: 'long',
@@ -41,7 +41,7 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
     };
 
     const formatTime = (dateString) => {
-        return new Date(dateString).toLocaleTimeString('en-US', {
+        return new Date(dateString).toLocaleTimeString('id-ID', {
             hour: '2-digit',
             minute: '2-digit',
         });
@@ -49,7 +49,7 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
 
     return (
         <>
-            <Head title={`Attendance - ${training.title}`} />
+            <Head title={`Kehadiran - ${training.title}`} />
 
             <div className="min-h-screen bg-gradient-to-br from-slate-100 to-indigo-50 py-12 px-4">
                 <div className="max-w-2xl mx-auto">
@@ -59,7 +59,7 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
-                            Attendance Form
+                            Formulir Kehadiran
                         </div>
                         <h1 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">{training.title}</h1>
                         <p className="text-slate-600">
@@ -76,9 +76,9 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </div>
-                                <h2 className="text-2xl font-bold text-slate-800 mb-4">Attendance Form Not Available</h2>
+                                <h2 className="text-2xl font-bold text-slate-800 mb-4">Formulir Kehadiran Belum Tersedia</h2>
                                 <p className="text-slate-600 max-w-md mx-auto">
-                                    The attendance form for this training is not open yet. Please check back during the designated time.
+                                    Formulir kehadiran untuk pelatihan ini belum dibuka. Silakan cek kembali pada waktu yang telah ditentukan.
                                 </p>
                             </div>
                         ) : (
@@ -106,7 +106,7 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
                                                     required={field.is_required}
                                                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
                                                 >
-                                                    <option value="">Select an option</option>
+                                                    <option value="">Pilih opsi</option>
                                                     {field.options?.map((option, idx) => (
                                                         <option key={idx} value={option}>{option}</option>
                                                     ))}
@@ -144,7 +144,7 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
                                         disabled={processing}
                                         className="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-indigo-300/50 transition-all disabled:opacity-50"
                                     >
-                                        {processing ? 'Submitting...' : 'Submit Attendance'}
+                                        {processing ? 'Mengirim...' : 'Kirim Kehadiran'}
                                     </button>
                                 </div>
                             </form>
@@ -153,7 +153,7 @@ export default function Form({ training, formFields, isOpen, recaptchaSiteKey, s
 
                     {/* Footer */}
                     <p className="text-center text-slate-500 text-sm mt-8">
-                        Powered by {siteName}
+                        Dibuat dengan ❤️ oleh {siteName}
                     </p>
                 </div>
             </div>
