@@ -86,5 +86,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/trainings/{training}/zoom/start', [TrainingController::class, 'startZoomMeeting'])->name('trainings.zoom.start');
         Route::delete('/trainings/{training}/zoom/delete', [TrainingController::class, 'deleteZoomMeeting'])->name('trainings.zoom.delete');
         Route::get('/trainings/{training}/material/download', [TrainingController::class, 'downloadMaterial'])->name('trainings.material.download');
+        Route::post('/attendance/{attendance}/resend-email', [TrainingController::class, 'resendCertificateEmail'])->name('attendance.resend-email');
     });
 });

@@ -146,11 +146,31 @@ export default function Show({ training, attendanceUrl, zoomConfigured }) {
                                                     <p className="text-sm text-slate-400">{attendance.organization}</p>
                                                 )}
                                             </div>
-                                            {attendance.certificate_number && (
-                                                <span className="text-xs font-mono text-indigo-600 bg-indigo-50 px-2 py-1 rounded">
-                                                    {attendance.certificate_number}
-                                                </span>
-                                            )}
+                                            <div className="flex items-center gap-3">
+                                                {attendance.certificate_number && (
+                                                    <>
+                                                        <span className="text-xs font-mono text-indigo-600 bg-indigo-50 px-2 py-1 rounded">
+                                                            {attendance.certificate_number}
+                                                        </span>
+                                                        <a
+                                                            href={`/certificate/${attendance.id}/download`}
+                                                            className="text-xs font-medium text-blue-600 hover:text-blue-700 hover:underline"
+                                                        >
+                                                            Download
+                                                        </a>
+                                                        <button
+                                                            onClick={() => {
+                                                                if (confirm('Resend certificate email to ' + attendance.email + '?')) {
+                                                                    router.post(`/trainer/attendance/${attendance.id}/resend-email`);
+                                                                }
+                                                            }}
+                                                            className="text-xs font-medium text-green-600 hover:text-green-700 hover:underline"
+                                                        >
+                                                            Resend Email
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 ))}

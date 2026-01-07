@@ -363,6 +363,32 @@ class TrainingController extends Controller
         return Storage::disk('public')->download($training->material_path, $training->material_original_name);
     }
 
+
+    /**
+     * Resend certificate email to attendee
+     */
+    public function resendCertificateEmail(\App\Models\Attendance $attendance)
+    {
+        // Verify the trainer owns this training
+        if ($attendance->training->trainer_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if (!$attendance->certificate_path || !$attendance->email) {
+            return back()->withErrors(['email' => 'Cannot resend - no certificate or email address.']);
+        }
+
+        try {
+            app(\App\Services\SettingsService::class)->applySmtpSettings();
+            \Illuminate\Support\Facades\Mail::to($attendance->email)->send(new \App\Mail\CertificateMail($attendance));
+            
+            return back()->with('success', 'Certificate email sent to ' . $attendance->email);
+        } catch (\Exception $e) {
+            \Log::error('Failed to resend certificate email: ' . $e->getMessage());
+            return back()->withErrors(['email' => 'Failed to send email. Please check SMTP settings.']);
+        }
+    }
+
     /**
      * Get attendance options
      */
