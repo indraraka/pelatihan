@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('certificate_templates', function (Blueprint $table) {
-            //
+            $table->string('signer_name')->nullable()->change();
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('certificate_templates', function (Blueprint $table) {
-            //
+            $table->string('signer_name')->nullable(false)->change();
         });
     }
 };
