@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class ZoomService
 {
@@ -52,6 +53,11 @@ class ZoomService
             return $this->accessToken;
         }
 
+        Log::error('Zoom OAuth token request failed', [
+            'status' => $response->status(),
+            'body' => $response->json(),
+        ]);
+
         return null;
     }
 
@@ -93,6 +99,11 @@ class ZoomService
                 'passcode' => $meeting['password'] ?? '',
             ];
         }
+
+        Log::error('Zoom meeting creation failed', [
+            'status' => $response->status(),
+            'body' => $response->json(),
+        ]);
 
         return null;
     }
