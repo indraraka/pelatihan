@@ -81,6 +81,30 @@ export default function Form({ certificate, placeholders }) {
         certificate?.signature_image ? `/storage/${certificate.signature_image}` : null
     );
 
+    const [showPreviewModal, setShowPreviewModal] = useState(false);
+
+    // Sample data for preview
+    const sampleData = {
+        name: 'John Doe',
+        organization: 'Sample Organization',
+        certificate_number: 'CERT/01/2026/0001',
+        training_title: 'Sample Training Event',
+        training_date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+        training_duration: '09:00 - 17:00',
+        issue_date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
+        signer_name: data.signer_name || 'Signer Name',
+        signer_title: data.signer_title || 'Signer Title',
+    };
+
+    // Function to replace placeholders with sample data
+    const replacePlaceholders = (text) => {
+        let result = text;
+        Object.entries(sampleData).forEach(([key, value]) => {
+            result = result.replace(new RegExp(`{{${key}}}`, 'g'), value);
+        });
+        return result;
+    };
+
     const handleBackgroundUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -368,15 +392,13 @@ export default function Form({ certificate, placeholders }) {
                         <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="font-semibold text-slate-800">Certificate Canvas</h3>
-                                {isEdit && (
-                                    <a
-                                        href={`/admin/certificates/${certificate.id}/preview`}
-                                        target="_blank"
-                                        className="text-sm text-indigo-600 hover:text-indigo-700"
-                                    >
-                                        Open Preview →
-                                    </a>
-                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPreviewModal(true)}
+                                    className="text-sm text-indigo-600 hover:text-indigo-700"
+                                >
+                                    Open Preview →
+                                </button>
                             </div>
 
                             {/* Upload Area */}
@@ -664,6 +686,88 @@ export default function Form({ certificate, placeholders }) {
                     </button>
                 </div>
             </form>
+
+            {/* Live Preview Modal */}
+            {showPreviewModal && (
+                <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
+                        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+                            <h3 className="text-lg font-semibold text-slate-800">Live Preview (Unsaved)</h3>
+                            <button
+                                type="button"
+                                onClick={() => setShowPreviewModal(false)}
+                                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div className="p-6 overflow-auto" style={{ maxHeight: 'calc(90vh - 100px)' }}>
+                            {/* Preview Container */}
+                            <div
+                                className="relative mx-auto bg-white shadow-lg"
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '842px', // A4 landscape width at 72dpi
+                                    aspectRatio: '297/210',
+                                    backgroundImage: backgroundPreview ? `url(${backgroundPreview})` : undefined,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    backgroundColor: backgroundPreview ? undefined : '#f1f5f9'
+                                }}
+                            >
+                                {!backgroundPreview && (
+                                    <div className="absolute inset-0 flex items-center justify-center text-slate-400">
+                                        No background image
+                                    </div>
+                                )}
+                                {/* Render text elements with sample data */}
+                                {data.text_elements.map((element) => {
+                                    const displayValue = replacePlaceholders(element.value);
+                                    const leftOffset = element.x - (element.width / 2);
+
+                                    return (
+                                        <div
+                                            key={element.id}
+                                            style={{
+                                                position: 'absolute',
+                                                left: `${leftOffset}%`,
+                                                top: `${element.y}%`,
+                                                width: `${element.width}%`,
+                                                fontSize: `${element.fontSize * 0.75}pt`,
+                                                fontFamily: element.fontFamily,
+                                                fontWeight: element.fontWeight,
+                                                color: element.color,
+                                                textAlign: element.textAlign,
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
+                                            {displayValue}
+                                        </div>
+                                    );
+                                })}
+                                {/* Signature image */}
+                                {signaturePreview && data.text_elements.some(el => el.value === '{{signature_image}}') && (
+                                    <img
+                                        src={signaturePreview}
+                                        alt="Signature"
+                                        style={{
+                                            position: 'absolute',
+                                            left: `${data.text_elements.find(el => el.value === '{{signature_image}}')?.x || 50}%`,
+                                            top: `${data.text_elements.find(el => el.value === '{{signature_image}}')?.y || 80}%`,
+                                            maxHeight: '60px'
+                                        }}
+                                    />
+                                )}
+                            </div>
+                            <p className="text-center text-sm text-slate-500 mt-4">
+                                This is a live preview of your current layout. Save to persist changes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </DashboardLayout>
     );
 }
